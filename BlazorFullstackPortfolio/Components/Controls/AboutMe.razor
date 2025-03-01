@@ -1,0 +1,40 @@
+﻿<div class="container text-center">
+    <div class="about">
+        <div class="about-img-holder">
+            <img src="/images/murat.jpg" class="about-img img-fluid rounded shadow" alt="Murat">
+        </div>
+        <div class="about-caption">
+            <h2 class="section-title">Who Am I?</h2>
+            <p>
+                Jag studerar .NET Cloud Developer på IT-Högskolan i Göteborg, där jag lär mig att designa, utveckla och hantera molnlösningar med Microsoft Azure. 
+                Under utbildningen får jag en god förståelse för C#-programmering, webbutveckling och databashantering, 
+                med fokus på att bygga skalbara och effektiva molnapplikationer. Vi jobbar mycket praktiskt med agil 
+                metodik, vilket ger mig värdefull hands-on-erfarenhet. Målet efter utbildningen är att vara redo för 
+                en roll som .NET Cloud Developer eller systemutvecklare, med en stark grund inom Azure och molnbaserad 
+                utveckling.
+            </p>
+            <button class="btn btn-primary btn-rounded mt-4" data-bs-toggle="modal" data-bs-target="#cvModal">
+                <i class="bi bi-arrow-right-circle"></i> Öppna CV
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal fade" id="cvModal" tabindex="-1" aria-labelledby="cvModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body d-flex">
+                <div class="modal-img-holder">
+                    <img src="/images/cv_murat_buyuksal.png" class="modal-img img-fluid rounded" alt="Murat">
+                </div>
+                <!-- Text till höger -->
+                @* <div class="modal-text p-4">
+                    <h2 class="mb-3">Murat Buyuksal</h2>
+                    <p>Här kan du ladda ner mitt CV och läsa mer om min erfarenhet inom systemutveckling och .NET.</p>
+                    <a href="/cv/Murat_CV.pdf" class="btn btn-primary mt-3" download><i class="bi bi-file-earmark-arrow-down"></i> Download CV</a>
+                </div> *@
+            </div>
+        </div>
+    </div>
+</div>
