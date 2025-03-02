@@ -28,6 +28,7 @@ public class Program
             client.BaseAddress = new Uri("http://localhost:5053/"); // Säkerställ att detta är rätt API-URL
         });
 
+        builder.Services.AddScoped<ApiService>();
         builder.Services.AddCascadingAuthenticationState();
         builder.Services.AddScoped<IdentityUserAccessor>();
         builder.Services.AddScoped<IdentityRedirectManager>();
