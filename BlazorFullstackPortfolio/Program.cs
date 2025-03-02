@@ -18,7 +18,7 @@ public class Program
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents();
 
-        var apiBaseAddress = new Uri("http://localhost:5053/");
+        var apiBaseAddress = new Uri("https://murat-portfolio-api.azurewebsites.net/");
 
         builder.Services.AddHttpClient<SkillService>(client => client.BaseAddress = apiBaseAddress);
         builder.Services.AddHttpClient<ProjectService>(client => client.BaseAddress = apiBaseAddress);
