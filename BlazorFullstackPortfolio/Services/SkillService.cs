@@ -2,11 +2,11 @@
 
 namespace BlazorFullstackPortfolio.Services
 {
-    public class SkillServcie
+    public class SkillService
     {
         private readonly HttpClient _httpClient;
 
-        public SkillServcie(HttpClient httpClient)
+        public SkillService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }

@@ -18,15 +18,11 @@ public class Program
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents();
 
-        builder.Services.AddHttpClient<SkillServcie>(client =>
-        {
-            client.BaseAddress = new Uri("http://localhost:5053/"); // Säkerställ att detta är rätt API-URL
-        });
+        var apiBaseAddress = new Uri("http://localhost:5053/");
 
-        builder.Services.AddHttpClient<ProjectService>(client =>
-        {
-            client.BaseAddress = new Uri("http://localhost:5053/"); // Säkerställ att detta är rätt API-URL
-        });
+        builder.Services.AddHttpClient<SkillService>(client => client.BaseAddress = apiBaseAddress);
+        builder.Services.AddHttpClient<ProjectService>(client => client.BaseAddress = apiBaseAddress);
+
 
         builder.Services.AddScoped<ApiService>();
         builder.Services.AddCascadingAuthenticationState();

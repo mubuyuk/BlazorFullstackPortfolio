@@ -21,20 +21,23 @@
 </div>
 
 <!-- MODAL -->
-<div class="modal fade" id="cvModal" tabindex="-1" aria-labelledby="cvModalLabel" aria-hidden="true">
+<div class="modal fade" id="cvModal" tabindex="-1" aria-labelledby="cvModalLabel">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="cvModalLabel" class="modal-title">CV - Murat Büyüksal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Stäng"></button>
+            </div>
             <div class="modal-body d-flex">
                 <div class="modal-img-holder">
-                    <img src="/images/cv_murat_buyuksal.png" class="modal-img img-fluid rounded" alt="Murat">
+                    <img src="/images/cv_murat_buyuksal.jpg" class="modal-img img-fluid" alt="CV för Murat Büyüksal">
+                    <!-- Ladda ner-knapp -->
+                    <a href="/documents/cv_murat_buyuksal.pdf" download class="btn btn-outline-primary btn-sm btn-rounded mt-2">
+                        <i class="bi bi-download"></i> Ladda ner CV
+                    </a>
                 </div>
-                <!-- Text till höger -->
-                @* <div class="modal-text p-4">
-                    <h2 class="mb-3">Murat Buyuksal</h2>
-                    <p>Här kan du ladda ner mitt CV och läsa mer om min erfarenhet inom systemutveckling och .NET.</p>
-                    <a href="/cv/Murat_CV.pdf" class="btn btn-primary mt-3" download><i class="bi bi-file-earmark-arrow-down"></i> Download CV</a>
-                </div> *@
             </div>
         </div>
     </div>
 </div>
+
