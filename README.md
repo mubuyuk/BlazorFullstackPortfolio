@@ -1,15 +1,33 @@
-Fullstack Portfolio
+# Fullstack Portfolio
 
-Målet med detta projekt vat att få en helhetsförståelse för utvecklingen av ett fullstack-system från grunden.
+Målet med detta projekt var att få en helhetsförståelse för utvecklingen av ett fullstack-system från grunden.
 
-Arbetet innefattade både backend- och frontendutveckling, där målet var att bygga ett fullständigt fungerande system. 
-På backend-sidan utvecklades ett API som hanterade dataflödet och var kopplat till en databas för att lagra och hämta information. 
-API:et designades för att vara effektivt, säkert och skalbart, vilket möjliggjorde smidig kommunikation mellan klient och server.
+## Beskrivning
 
-Frontend-delen byggdes med Blazor, något som gör det möjligt att utveckla dynamiska webbapplikationer med C# och .NET. Frontend och backend 
-integrerades sömlöst för att skapa en responsiv och interaktiv applikation, där användare enkelt kunde interagera med data i realtid.
+Arbetet innefattade både **backend-** och **frontendutveckling**, där målet var att bygga ett fullständigt fungerande system.  
 
-Projektet gav värdefull erfarenhet inom fullstack-utveckling, API-design, databasinteraktion och frontendutveckling i Blazor, samt en 
-djupare förståelse för hur alla dessa komponenter samverkar för att skapa en komplett webbapplikation.
+- **Backend**: Ett API utvecklades för att hantera dataflödet och var kopplat till en databas för att lagra och hämta information.  
+  API:et designades för att vara **effektivt, säkert och skalbart**, vilket möjliggjorde smidig kommunikation mellan klient och server.  
+- **Frontend**: Byggdes med **Blazor**, vilket möjliggör utveckling av dynamiska webbapplikationer med **C# och .NET**.  
+  Frontend och backend integrerades sömlöst för att skapa en **responsiv och interaktiv applikation**, där användare enkelt kunde interagera med data i realtid.
 
-Länk till sida: https://blazor-portfolio.azurewebsites.net/
+## Teknologier
+
+- **Backend**: ASP.NET Core, Entity Framework, REST API  
+- **Frontend**: Blazor, C#, .NET  
+- **Databas**: SQL Server  
+- **Hosting**: Azure  
+
+## Lärdomar & Erfarenheter
+
+Projektet gav värdefull erfarenhet inom:
+
+✅ Fullstack-utveckling  
+✅ API-design & databasinteraktion  
+✅ Frontendutveckling i Blazor  
+✅ Integration mellan backend och frontend  
+✅ Skalbarhet & säkerhet i webbapplikationer  
+
+## Live Demo
+
+🔗 [Besök applikationen här](https://blazor-portfolio.azurewebsites.net/)
