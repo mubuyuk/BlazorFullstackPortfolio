@@ -1,0 +1,148 @@
+﻿@inject ProjectService ProjectService
+@inject NavigationManager Navigation
+
+@code {
+    [Parameter] public List<Project> ProjectsList { get; set; } = new();
+    [Parameter] public EventCallback<int> OnDelete { get; set; }
+    [Parameter] public EventCallback<Project> OnEdit { get; set; }
+
+    private bool IsAdmin => Navigation.Uri.Contains("/admin");
+    private string GitHubUrl = "https://github.com/mubuyuk";
+
+    private Dictionary<int, bool> expandedProjects = new();
+
+    private void ToggleExpand(int projectId)
+    {
+        if (expandedProjects.ContainsKey(projectId))
+        {
+            expandedProjects[projectId] = !expandedProjects[projectId];
+        }
+        else
+        {
+            expandedProjects[projectId] = true;
+        }
+    }
+}
+
+<h2 class="mb-4">Projects</h2>
+<div class="row row-cols-1 row-cols-md-2 g-3">
+    @foreach (var project in ProjectsList)
+    {
+        <div class="col" key="@project.Id">
+            <div class="project-card p-3 position-relative">
+
+                @if (!IsAdmin)
+                {
+                    <a href="@GitHubUrl" target="_blank" class="github-card-icon"
+                       aria-label="GitHub Repository" title="View on GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                }
+
+                @if (OnDelete.HasDelegate)
+                {
+                    <button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
+                            @onclick="() => OnDelete.InvokeAsync(project.Id)"
+                            aria-label="Radera projektet @project.ProjectName">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                }
+
+                <div class="d-flex justify-content-center align-items-center" style="height: 150px;">
+                    <img src="/images/projects/@(GetProjectImage(project.ProjectName))"
+                         srcset="/images/projects/@(GetProjectImage(project.ProjectName))?width=400 400w,
+                                /images/projects/@(GetProjectImage(project.ProjectName))?width=800 800w"
+                         sizes="(max-width: 768px) 80vw, 50vw"
+                         width="400" height="225"
+                         alt="@project.ProjectName"
+                         class="project-img img-fluid rounded"
+                         loading="lazy">
+
+                </div>
+
+                <h3 class="mt-3">@project.ProjectName</h3>
+
+                <p class="text-muted">
+                    @if (expandedProjects.ContainsKey(project.Id) && expandedProjects[project.Id])
+                    {
+                        @project.Description
+                    }
+                    else
+                    {
+                        @project.Description.Substring(0, Math.Min(project.Description.Length, 250))
+                    }
+
+                    <button class="btn btn-link p-0 ms-1" @onclick="() => ToggleExpand(project.Id)">
+                        <i class="bi @(expandedProjects.ContainsKey(project.Id) && expandedProjects[project.Id] ? "bi-caret-up-fill" : "bi-caret-down-fill")"></i>
+                    </button>
+                </p>
+
+                <p><strong>Technologies:</strong></p>
+                <div class="d-flex flex-wrap gap-2">
+                    @foreach (var tech in GetTechnologiesList(project.TechnologiesUsed))
+                    {
+                        <img src="/images/icons/@(GetTechnologyIcon(tech))"
+                             alt="@tech"
+                             class="tech-icon"
+                             loading="lazy">
+                    }
+                </div>
+
+                @if (IsAdmin)
+                {
+                    <div class="d-flex justify-content-end mt-3">
+                        <button class="btn btn-outline-primary btn-sm" @onclick="() => OnEdit.InvokeAsync(project)">
+                            <i class="bi bi-pencil-square"></i> Redigera
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private static readonly Dictionary<string, string> ProjectImages = new()
+        {
+            ["pizzatime frontend"] = "project2.webp",
+            ["fullstack portfolio"] = "project1.webp",
+            ["my first wpf app"] = "project3.webp",
+            ["azure function"] = "azure.png",
+            ["dotnet core"] = "dotnet.png"
+        };
+
+    private string GetProjectImage(string projectName)
+    {
+        return ProjectImages.TryGetValue(projectName.ToLower(), out var image) ? image : "default.png";
+    }
+
+    private static readonly Dictionary<string, string> TechnologyIcons = new()
+        {
+            ["html"] = "html.svg",
+            ["css"] = "css.svg",
+            ["javascript"] = "javascript.svg",
+            ["c#"] = "csharp.svg",
+            ["blazor"] = "blazor.png",
+            ["sql"] = "sqlserver.svg",
+            ["mongodb"] = "mongodb.svg",
+            ["bootstrap"] = "bootstrap.svg",
+            ["dotnet"] = "dotnet.svg",
+            ["nodejs"] = "nodejs.svg",
+            ["kubernetes"] = "kubernetes.png",
+            ["docker"] = "docker.svg",
+            ["azure"] = "azure.svg"
+        };
+
+    private string GetTechnologyIcon(string techName)
+    {
+        return TechnologyIcons.TryGetValue(techName.ToLower(), out var icon) ? icon : "default-tech.svg";
+    }
+
+    private List<string> GetTechnologiesList(string? technologies)
+    {
+        if (string.IsNullOrWhiteSpace(technologies))
+            return new List<string>();
+
+        return technologies.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).ToList();
+    }
+}

@@ -1,0 +1,18 @@
+﻿@page "/admin"
+@rendermode InteractiveServer
+@inject ProjectService ProjectService
+@inject SkillService SkillService
+@inject IJSRuntime JS
+@using BlazorFullstackPortfolio.Components.Layout
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+<NavMenu />
+
+<AuthorizeView>
+<AdminSkills />
+
+<AdminProject />
+</AuthorizeView>
+

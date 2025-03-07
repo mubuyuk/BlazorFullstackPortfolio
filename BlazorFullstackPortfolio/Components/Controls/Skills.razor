@@ -1,0 +1,76 @@
+﻿@inject SkillService SkillServcie
+
+@code {
+    [Parameter] public List<Skill> SkillsList { get; set; } = new();
+    [Parameter] public EventCallback<int> OnDelete { get; set; }
+}
+
+<h2 class="mb-4">Skills</h2>
+<div class="row row-cols-2 row-cols-md-4 g-2">
+    @foreach (var skill in SkillsList)
+    {
+        <div class="col">
+            <div class="card text-center p-3 position-relative">
+                <!-- Visa "X"-knappen endast om OnDelete har en aktiv eventkoppling -->
+                @if (OnDelete.HasDelegate)
+                {
+                    <button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
+                            @onclick="() => OnDelete.InvokeAsync(skill.Id)"
+                            aria-label="Ta bort @skill.TechnologyName">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+
+
+                }
+
+                <div class="d-flex justify-content-center align-items-center" style="height: 60px;">
+                         <img src="/images/icons/@(GetSkillIcon(skill.TechnologyName))"
+                         alt="@skill.TechnologyName"
+                         class="skill-icon">
+                </div>
+
+                <h5>@skill.TechnologyName</h5>
+                @if (!string.IsNullOrWhiteSpace(skill.YearsOfExperience))
+                {
+                    <p class="experience-text">
+                        <i class="bi bi-clock-history"></i> @skill.YearsOfExperience år
+                    </p>
+                }
+
+                <div class="progress mt-2" role="progressbar" aria-label="Skill level progress"
+                     aria-valuenow="@skill.SkillLevel" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar" style="width: @skill.SkillLevel% !important;">
+                        @skill.SkillLevel%
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private string GetSkillIcon(string techName)
+    {
+        return techName.ToLower() switch
+        {
+            "html" => "html.svg",
+            "css" => "css.svg",
+            "javascript" => "javascript.svg",
+            "c#" => "csharp.svg",
+            "blazor" => "favicon.png",
+            "sql" => "sqlserver.svg",
+            "mongodb" => "mongodb.svg",
+            "bootstrap" => "bootstrap.svg",
+            "dotnet" => "dotnet.svg",
+            "nodejs" => "nodejs.svg",
+            "kubernetes" => "kubernetes.png",
+            "docker" => "docker.svg",
+            "azure" => "azure.svg",
+            "paint" => "paint.png",
+            _ => "fas fa-code"
+        };
+    }
+}
+
+

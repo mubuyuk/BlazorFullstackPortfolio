@@ -1,0 +1,126 @@
+﻿@rendermode InteractiveServer
+@inject ProjectService ProjectService
+@inject SkillService SkillService
+@inject IJSRuntime JS
+
+<h2>Admin Projects Dashboard</h2>
+
+<!-- Knapp för att lägga till ett nytt projekt -->
+<div class="d-flex justify-content-center my-4">
+    <button class="btn btn-outline-success btn-lg" @onclick="ShowAddProjectModal">
+        + Lägg till nytt projekt
+    </button>
+</div>
+
+<section id="projects" class="container text-center py-5">
+    <Projects ProjectsList="Projects" OnDelete="DeleteProject" OnEdit="ShowEditProjectModal" />
+</section>
+
+
+<!-- Modal för att lägga till/redigera projekt -->
+<div class="modal fade" id="addProjectModal" tabindex="-1" aria-labelledby="addProjectModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addProjectModalLabel">@((EditingProject.Id == 0 ? "Lägg till nytt projekt" : "Redigera projekt"))</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="CloseAddProjectModal"></button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="EditingProject" OnValidSubmit="SaveProject">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <div class="mb-3">
+                        <label>Projektnamn</label>
+                        <InputText @bind-Value="EditingProject.ProjectName" class="form-control" />
+                        <ValidationMessage For="@(() => EditingProject.ProjectName)" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Beskrivning</label>
+                        <InputTextArea @bind-Value="EditingProject.Description" class="form-control" />
+                        <ValidationMessage For="@(() => EditingProject.Description)" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Teknologier (kommaseparerad lista)</label>
+                        <InputText @bind-Value="EditingProject.TechnologiesUsed" class="form-control" />
+                        <ValidationMessage For="@(() => EditingProject.TechnologiesUsed)" />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">@((EditingProject.Id == 0 ? "Lägg till" : "Spara"))</button>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Project> Projects = new();
+    private Project EditingProject = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProjects();
+    }
+
+    private async Task LoadProjects()
+    {
+        Projects = await ProjectService.GetProjectsAsync();
+    }
+
+    private async Task SaveProject()
+    {
+        bool success;
+        if (EditingProject.Id == 0)
+        {
+            
+            success = await ProjectService.AddProjectAsync(EditingProject);
+        }
+        else
+        {
+            
+            success = await ProjectService.UpdateProjectAsync(EditingProject);
+        }
+
+        if (success)
+        {
+            await LoadProjects();
+            EditingProject = new();
+            await CloseAddProjectModal();
+        }
+    }
+
+    private async Task DeleteProject(int id)
+    {
+        var success = await ProjectService.DeleteProjectAsync(id);
+        if (success)
+        {
+            await LoadProjects();
+        }
+    }
+
+    
+    private async Task ShowAddProjectModal()
+    {
+        EditingProject = new();
+        await JS.InvokeVoidAsync("bootstrapModal.show", "#addProjectModal");
+    }
+
+    private async Task ShowEditProjectModal(Project project)
+    {
+        EditingProject = new Project
+            {
+                Id = project.Id,
+                ProjectName = project.ProjectName,
+                Description = project.Description,
+                TechnologiesUsed = project.TechnologiesUsed
+            };
+        await JS.InvokeVoidAsync("bootstrapModal.show", "#addProjectModal");
+    }
+
+    private async Task CloseAddProjectModal()
+    {
+        await JS.InvokeVoidAsync("bootstrapModal.hide", "#addProjectModal");
+    }
+}

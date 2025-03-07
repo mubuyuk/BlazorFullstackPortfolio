@@ -1,0 +1,86 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@inject ProjectService ProjectService
+@inject SkillService SkillService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@using Microsoft.AspNetCore.Components.Authorization
+
+<PageTitle>Murat Buyuksal - Portfolio</PageTitle>
+
+<header class="header-section">
+    <div class="container text-center">
+        <h1 class="header-title">Murat Buyuksal</h1>
+        <p class="header-subtitle">Software Developer | Azure Enthusiast | Problem Solver</p>
+
+        <AuthorizeView>
+            <Authorized>
+                <div class="mt-4">
+                    <a class="btn btn-danger" href="/admin">
+                        <i class="bi bi-lock"></i> Inloggad som admin
+                    </a>
+                </div>
+            </Authorized>
+        </AuthorizeView>
+
+        <div class="btn-group">
+            <!-- Social Media Links -->
+            <div class="social-links mt-3">
+                <a href="https://github.com/mubuyuk" target="_blank" aria-label="GitHub profile" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://linkedin.com/in/murat-buyuksal-1887a9302" target="_blank" aria-label="LinkedIn profile" title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="mailto:muratbuyuksal@gmail.com" aria-label="Send email" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Sections -->
+<section id="about" class="container text-center py-5">
+    <AboutMe />
+    <ChuckNorrisApi />
+</section>
+
+<!-- Sections -->
+<section id="skills" class="container text-center py-5">
+    @if (Skills == null || Skills.Count == 0)
+    {
+        <p>Laddar färdigheter...</p>
+    }
+    else
+    {
+        <Skills SkillsList="Skills" />
+    }
+</section>
+
+<!-- Sections -->
+<section id="projects" class="container text-center py-5">
+    @if (ProjectsList == null || ProjectsList.Count == 0)
+    {
+        <p>Laddar projekt...</p>
+    }
+    else
+    {
+        <Projects ProjectsList="ProjectsList" />
+    }
+</section>
+
+<!-- Sections -->
+<section id="footer" class="container text-center py-5">
+    <Footer />
+</section>
+
+@code {
+    private List<Project> ProjectsList = new();
+    private List<Skill> Skills = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        ProjectsList = await ProjectService.GetProjectsAsync();
+        Skills = await SkillService.GetSkillsAsync();
+    }
+}
